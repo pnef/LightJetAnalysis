@@ -91,6 +91,7 @@ void LightJetAnalysis::Analyze(){
 
 
     h_jpt->Fill(Jpt[0]);
+    fastjet::PseudoJet jet;
 
     return; 
 }
