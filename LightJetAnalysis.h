@@ -44,7 +44,7 @@ class LightJetAnalysis: public LightJetAnalysisBase {
 
 
         // histos and such
-        TH1D* h_jpt;
+        TH1D* h_clpt;
 
 };
 

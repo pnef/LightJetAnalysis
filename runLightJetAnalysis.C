@@ -31,7 +31,7 @@ int main(int argc, char* argv[]){
 
     // agruments ----------------------------------------------
     int fDebug         = 0;
-    string infile      = "/atlas/output/pnef/20140604.11.11_PileUpStudies_rev360615.PythJXmc12aJETMETshort.jetmet2012pileupcustom.root";
+    string infile      = "/atlas/output/pnef/skimmed.20140609.17.13_ClustersAndTruth.PythJ1to3mc12aJETMET.jetmet2012.root";
     string outName     = "test.root";
     int nevents        = 10;
 
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
     desc.add_options()
       ("help", "produce help message")
       ("Debug",          po::value<int>(&fDebug) ->default_value(0) ,     "Debug flag")
-      ("InFlie",         po::value<string>(&infile) ->default_value("/atlas/output/pnef/20140604.11.11_PileUpStudies_rev360615.PythJXmc12aJETMETshort.jetmet2012pileupcustom.root") ,     "input file")
+      ("InFlie",         po::value<string>(&infile) ->default_value("/atlas/output/pnef/skimmed.20140609.17.13_ClustersAndTruth.PythJ1to3mc12aJETMET.jetmet2012.root") ,     "input file")
       ("OutFile",        po::value<string>(&outName)->default_value("test.root"), "output file name")
       ("NEvents",        po::value<int>(&nevents)->default_value(10), "number of events to analyze")
       ;

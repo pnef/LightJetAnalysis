@@ -48,7 +48,7 @@ void LightJetAnalysis::Begin(){
     outfile_ = new TFile(outname_.c_str(), "recreate");
 
     // declare histos
-    h_jpt    = new TH1D("jpt", "", 100, 0, 500);
+    h_clpt    = new TH1D("cl_pt", "", 100, 0, 500);
 
    return;
 }
@@ -90,7 +90,10 @@ void LightJetAnalysis::Analyze(){
     cout << "Event Number " << EventNumber  << endl; 
 
 
-    h_jpt->Fill(Jpt[0]);
+    for(int icl=0; icl<cl_lc_n; ++icl){
+        cout << "cluster " << icl << " cl_lc_pt " <<  cl_lc_pt[icl] << endl;
+    }
+    h_clpt->Fill(cl_lc_pt[0]);
     fastjet::PseudoJet jet;
 
     return; 

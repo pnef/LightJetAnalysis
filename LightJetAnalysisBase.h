@@ -1,8 +1,8 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Wed Jun  4 13:24:53 2014 by ROOT version 5.34/05
+// Tue Jun 10 10:35:20 2014 by ROOT version 5.34/17
 // from TTree EventTree/Tree with event-by-event variables
-// found on file: /atlas/output/pnef/20140604.11.11_PileUpStudies_rev360615.PythJXmc12aJETMETshort.jetmet2012pileupcustom.root
+// found on file: /atlas/output/pnef/skimmed.20140609.17.13_ClustersAndTruth.PythJ1to3mc12aJETMET.jetmet2012.root
 //////////////////////////////////////////////////////////
 
 #ifndef LightJetAnalysisBase_h
@@ -28,18 +28,20 @@ public :
    Float_t         Mu;
    Int_t           NPVtruth;
    Int_t           NPV;
-   Int_t           NJets;
-   Int_t           NJetsFilled;
-   Float_t         Jpt[17];   //[NJetsFilled]
-   Float_t         Jeta[17];   //[NJetsFilled]
-   Float_t         Jphi[17];   //[NJetsFilled]
-   Int_t           JisPU[17];   //[NJetsFilled]
-   Int_t           JisHS[17];   //[NJetsFilled]
-   Int_t           JisBtagged[17];   //[NJetsFilled]
-   Float_t         JJVF[17];   //[NJetsFilled]
-   Float_t         JRpT[17];   //[NJetsFilled]
-   Float_t         JnPUTrkCorrJVF[17];   //[NJetsFilled]
-   Float_t         Jtruthpt[17];   //[NJetsFilled]
+   Int_t           cl_lc_n;
+   Float_t         cl_lc_pt[5000];   //[cl_lc_n]
+   Float_t         cl_lc_eta[5000];   //[cl_lc_n]
+   Float_t         cl_lc_phi[5000];   //[cl_lc_n]
+   Int_t           cl_em_n;
+   Float_t         cl_em_pt[5000];   //[cl_em_n]
+   Float_t         cl_em_eta[5000];   //[cl_em_n]
+   Float_t         cl_em_phi[5000];   //[cl_em_n]
+   Int_t           truth_n;
+   Float_t         truth_pt[5000];   //[truth_n]
+   Float_t         truth_eta[5000];   //[truth_n]
+   Float_t         truth_phi[5000];   //[truth_n]
+   Float_t         truth_m[5000];   //[truth_n]
+   Float_t         truth_id[5000];   //[truth_n]
 
    // List of branches
    TBranch        *b_EventNumber;   //!
@@ -48,18 +50,20 @@ public :
    TBranch        *b_Mu;   //!
    TBranch        *b_NPVtruth;   //!
    TBranch        *b_NPV;   //!
-   TBranch        *b_NJets;   //!
-   TBranch        *b_NJetsFilled;   //!
-   TBranch        *b_Jpt;   //!
-   TBranch        *b_Jeta;   //!
-   TBranch        *b_Jphi;   //!
-   TBranch        *b_JisPU;   //!
-   TBranch        *b_JisHS;   //!
-   TBranch        *b_JisBtagged;   //!
-   TBranch        *b_JJVF;   //!
-   TBranch        *b_JRpT;   //!
-   TBranch        *b_JnPUTrkCorrJVF;   //!
-   TBranch        *b_Jtruthpt;   //!
+   TBranch        *b_cl_lc_n;   //!
+   TBranch        *b_cl_lc_pt;   //!
+   TBranch        *b_cl_lc_eta;   //!
+   TBranch        *b_cl_lc_phi;   //!
+   TBranch        *b_cl_em_n;   //!
+   TBranch        *b_cl_em_pt;   //!
+   TBranch        *b_cl_em_eta;   //!
+   TBranch        *b_cl_em_phi;   //!
+   TBranch        *b_truth_n;   //!
+   TBranch        *b_truth_pt;   //!
+   TBranch        *b_truth_eta;   //!
+   TBranch        *b_truth_phi;   //!
+   TBranch        *b_truth_m;   //!
+   TBranch        *b_truth_id;   //!
 
    LightJetAnalysisBase(TTree *tree=0);
    virtual ~LightJetAnalysisBase();
@@ -80,9 +84,9 @@ LightJetAnalysisBase::LightJetAnalysisBase(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/atlas/output/pnef/20140604.11.11_PileUpStudies_rev360615.PythJXmc12aJETMETshort.jetmet2012pileupcustom.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/atlas/output/pnef/skimmed.20140609.17.13_ClustersAndTruth.PythJ1to3mc12aJETMET.jetmet2012.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("/atlas/output/pnef/20140604.11.11_PileUpStudies_rev360615.PythJXmc12aJETMETshort.jetmet2012pileupcustom.root");
+         f = new TFile("/atlas/output/pnef/skimmed.20140609.17.13_ClustersAndTruth.PythJ1to3mc12aJETMET.jetmet2012.root");
       }
       f->GetObject("EventTree",tree);
 
@@ -137,18 +141,20 @@ void LightJetAnalysisBase::Init(TTree *tree)
    fChain->SetBranchAddress("Mu", &Mu, &b_Mu);
    fChain->SetBranchAddress("NPVtruth", &NPVtruth, &b_NPVtruth);
    fChain->SetBranchAddress("NPV", &NPV, &b_NPV);
-   fChain->SetBranchAddress("NJets", &NJets, &b_NJets);
-   fChain->SetBranchAddress("NJetsFilled", &NJetsFilled, &b_NJetsFilled);
-   fChain->SetBranchAddress("Jpt", Jpt, &b_Jpt);
-   fChain->SetBranchAddress("Jeta", Jeta, &b_Jeta);
-   fChain->SetBranchAddress("Jphi", Jphi, &b_Jphi);
-   fChain->SetBranchAddress("JisPU", JisPU, &b_JisPU);
-   fChain->SetBranchAddress("JisHS", JisHS, &b_JisHS);
-   fChain->SetBranchAddress("JisBtagged", JisBtagged, &b_JisBtagged);
-   fChain->SetBranchAddress("JJVF", JJVF, &b_JJVF);
-   fChain->SetBranchAddress("JRpT", JRpT, &b_JRpT);
-   fChain->SetBranchAddress("JnPUTrkCorrJVF", JnPUTrkCorrJVF, &b_JnPUTrkCorrJVF);
-   fChain->SetBranchAddress("Jtruthpt", Jtruthpt, &b_Jtruthpt);
+   fChain->SetBranchAddress("cl_lc_n", &cl_lc_n, &b_cl_lc_n);
+   fChain->SetBranchAddress("cl_lc_pt", cl_lc_pt, &b_cl_lc_pt);
+   fChain->SetBranchAddress("cl_lc_eta", cl_lc_eta, &b_cl_lc_eta);
+   fChain->SetBranchAddress("cl_lc_phi", cl_lc_phi, &b_cl_lc_phi);
+   fChain->SetBranchAddress("cl_em_n", &cl_em_n, &b_cl_em_n);
+   fChain->SetBranchAddress("cl_em_pt", cl_em_pt, &b_cl_em_pt);
+   fChain->SetBranchAddress("cl_em_eta", cl_em_eta, &b_cl_em_eta);
+   fChain->SetBranchAddress("cl_em_phi", cl_em_phi, &b_cl_em_phi);
+   fChain->SetBranchAddress("truth_n", &truth_n, &b_truth_n);
+   fChain->SetBranchAddress("truth_pt", truth_pt, &b_truth_pt);
+   fChain->SetBranchAddress("truth_eta", truth_eta, &b_truth_eta);
+   fChain->SetBranchAddress("truth_phi", truth_phi, &b_truth_phi);
+   fChain->SetBranchAddress("truth_m", truth_m, &b_truth_m);
+   fChain->SetBranchAddress("truth_id", truth_id, &b_truth_id);
    Notify();
 }
 
