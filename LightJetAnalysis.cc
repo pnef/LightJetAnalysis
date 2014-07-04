@@ -24,6 +24,7 @@
 #include "LightJetAnalysis.h"
 
 using namespace std;
+using namespace fastjet;
 
 
 // Constructor 
@@ -49,6 +50,7 @@ void LightJetAnalysis::Begin(){
 
     // declare histos
     h_clpt    = new TH1D("cl_pt", "", 100, 0, 500);
+    h_NJetsVsNPV = new TH2D("NJetsVsNPV", "", 30, 0, 50, 20, 0, 10);
 
    return;
 }
@@ -56,8 +58,10 @@ void LightJetAnalysis::Begin(){
 // End
 void LightJetAnalysis::End(){
     
+    h_NJetsVsNPV->Write();
     outfile_->Write();
 
+    delete h_NJetsVsNPV;
     delete outfile_;
     return;
 }
@@ -87,14 +91,39 @@ void LightJetAnalysis::Loop(){
 void LightJetAnalysis::Analyze(){
 
     cout << "---------------------------- " << endl;
-    cout << "Event Number " << EventNumber  << endl; 
+    cout << "Event Number " << EventNumber  << " NPV " << NPV << " NPVTruth " << NPVtruth << endl; 
 
 
+    std::vector<fastjet::PseudoJet> clusters;
     for(int icl=0; icl<cl_lc_n; ++icl){
-        cout << "cluster " << icl << " cl_lc_pt " <<  cl_lc_pt[icl] << endl;
+        fastjet::PseudoJet lv(cl_lc_px[icl], cl_lc_py[icl], cl_lc_pz[icl], cl_lc_E[icl]);
+        clusters.push_back(lv);
     }
-    h_clpt->Fill(cl_lc_pt[0]);
-    fastjet::PseudoJet jet;
+
+
+    JetMedianBackgroundEstimator bge(SelectorAbsRapMax(2.0), JetDefinition(kt_algorithm, 0.4), active_area_explicit_ghosts);  
+    bge.set_particles(clusters); //vector
+    float rho = bge.rho();
+
+    vector<PseudoJet> jets;
+    AreaDefinition area_def(active_area_explicit_ghosts, GhostedAreaSpec(5.0));  //is this value supposed to be 5.0 or 0.5?
+    ClusterSequenceArea cs(clusters, JetDefinition(antikt_algorithm, 0.4), area_def);
+    jets = sorted_by_pt(cs.inclusive_jets());  
+
+    int njetspt20=0;
+    for(int i=0; i<jets.size(); ++i){
+        float pt = jets[i].pt() - rho*jets[i].area();
+        jets[i].reset_momentum_PtYPhiM(pt, jets[i].rapidity(), jets[i].phi(), jets[i].m());
+
+        if(jets[i].pt()> 20 ) {
+            //cout << "jet with pT " << jets[i].pt() << endl;
+
+            njetspt20++;
+        }
+    }
+    h_NJetsVsNPV->Fill(NPV, njetspt20);
+
+
 
     return; 
 }

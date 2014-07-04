@@ -12,6 +12,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1D.h"
+#include "TH2D.h"
 
 #include "LightJetAnalysisBase.h"
 
@@ -45,6 +46,7 @@ class LightJetAnalysis: public LightJetAnalysisBase {
 
         // histos and such
         TH1D* h_clpt;
+        TH2D* h_NJetsVsNPV;
 
 };
 
